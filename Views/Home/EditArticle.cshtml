@@ -1,0 +1,140 @@
+﻿@model AspNetCoreMvcCrudJson.Models.Article
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+@if (ViewBag.ArticleEdited != null)
+{
+    <script type='text/javascript'>parent.ArticleEdited();</script>
+}
+else
+{
+    <form asp-action="EditArticle">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="id" />
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <label asp-for="articletitle" class="control-label"></label>
+                </div>
+                <div class="col-sm-8">
+                    <input asp-for="articletitle" class="form-control" />
+                    <span asp-validation-for="articletitle" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    &nbsp;
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <label asp-for="articleauthor" class="control-label"></label>
+                </div>
+                <div class="col-sm-8">
+                    <input asp-for="articleauthor" class="form-control" />
+                    <span asp-validation-for="articleauthor" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    &nbsp;
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <label asp-for="articlebody" class="control-label"></label>
+                </div>
+                <div class="col-sm-8">
+                    <textarea asp-for="articlebody" class="form-control" rows="5" cols="20"></textarea>
+                    <span asp-validation-for="articlebody" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    &nbsp;
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    Article Image
+                </div>
+                <div class="col-sm-8">
+                    <input type="file" id="fileArticleImage" class="form-control" style="width: 99%" />
+                    <img id="imagArticlePreview" src="@Model.articleimage" class="img-fluid" style="max-width: 200px; margin-top: 5px" />
+                    <input type="hidden" asp-for="articleimage" />
+                    <script type="text/javascript">
+                        function readFile() {
+
+                            document.querySelector("#imagArticlePreview").src = "";
+
+                            if (!this.files || !this.files[0]) return;
+
+                            const FR = new FileReader();
+
+                            FR.addEventListener("load", function (evt) {
+                                document.querySelector("#articleimage").value = evt.target.result;
+                                document.querySelector("#imagArticlePreview").src = evt.target.result;
+                                //document.querySelector("#b64").textContent = evt.target.result;
+                            });
+
+                            FR.readAsDataURL(this.files[0]);
+
+                        }
+
+                        document.querySelector("#fileArticleImage").addEventListener("change", readFile);
+                    </script>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    &nbsp;
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12 text-center">
+                    <input type="submit" value="Edit" class="btn btn-danger" />
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    &nbsp;
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
